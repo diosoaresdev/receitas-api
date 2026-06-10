@@ -11,7 +11,7 @@ public record ReceitaRequest(
         Integer porcoes,
         Integer tempoPreparo,
         Receita.Nivel nivel,
-        UUID catagoriaId,
+        UUID categoriaId,
         List<IngredienteItemRequest> ingredientes
 ) {
 }
