@@ -22,7 +22,7 @@ public class ReceitaIngrediente {
     private Receita receita;
 
     @ManyToOne
-    @Column(name = "ingrediente_id", nullable = false)
+    @JoinColumn(name = "ingrediente_id", nullable = false)
     private Ingrediente ingrediente;
 
     @Column(nullable = false)
