@@ -5,10 +5,13 @@ import com.receitas.domain.Receita;
 import com.receitas.domain.ReceitaIngrediente;
 import com.receitas.dto.ReceitaRequest;
 import com.receitas.dto.ReceitaResponse;
+import com.receitas.domain.Receita.Nivel;
 import com.receitas.repository.CategoriaRepository;
 import com.receitas.repository.IngredienteRepository;
 import com.receitas.repository.ReceitaRepository;
+import com.receitas.specification.ReceitaSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,8 +55,14 @@ public class ReceitaService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReceitaResponse> listar() {
-        return receitaRepository.findAll()
+    public List<ReceitaResponse> listar(String categoria, Nivel nivel, Integer maxTempo, String titulo) {
+        Specification<Receita> spec = Specification
+                .where(ReceitaSpecification.comCategoria(categoria))
+                .and(ReceitaSpecification.comNivel(nivel))
+                .and(ReceitaSpecification.comMaxTempo(maxTempo))
+                .and(ReceitaSpecification.comTitulo(titulo));
+
+        return receitaRepository.findAll(spec)
                 .stream()
                 .map(ReceitaResponse::from)
                 .toList();

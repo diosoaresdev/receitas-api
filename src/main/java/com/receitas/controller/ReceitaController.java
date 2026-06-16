@@ -1,5 +1,6 @@
 package com.receitas.controller;
 
+import com.receitas.domain.Receita.Nivel;
 import com.receitas.dto.ReceitaRequest;
 import com.receitas.dto.ReceitaResponse;
 import com.receitas.service.ReceitaService;
@@ -19,8 +20,12 @@ public class ReceitaController {
     private final ReceitaService receitaService;
 
     @GetMapping
-    public List<ReceitaResponse> listar() {
-        return receitaService.listar();
+    public List<ReceitaResponse> listar(
+            @RequestParam(required = false) String categoria,
+            @RequestParam(required = false) Nivel nivel,
+            @RequestParam(required = false) Integer maxTempo,
+            @RequestParam(required = false) String titulo) {
+        return receitaService.listar(categoria, nivel, maxTempo, titulo);
     }
 
     @GetMapping("/{id}")
