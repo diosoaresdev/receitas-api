@@ -73,4 +73,37 @@ public class ReceitaService {
         }
         receitaRepository.deleteById(id);
     }
+
+    @Transactional(readOnly = true)
+    public ReceitaResponse calcularPorcoes(UUID id, Integer porcoes) {
+        Receita receita = receitaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Receita não encontrada"));
+
+        if (porcoes < 1) {
+            throw new RuntimeException("Quantidade de porções deve ser maior que zero");
+        }
+
+        double fator = (double) porcoes / receita.getPorcoes();
+
+        List<ReceitaResponse.IngredienteResponse> ingredientesAjustados = receita.getIngredientes()
+                .stream()
+                .map(ri -> new ReceitaResponse.IngredienteResponse(
+                        ri.getIngrediente().getId(),
+                        ri.getIngrediente().getNome(),
+                        ri.getIngrediente().getUnidadeMedida(),
+                        Math.round(ri.getQuantidade() * fator * 100.0) / 100.0
+                ))
+                .toList();
+
+        return new ReceitaResponse(
+                receita.getId(),
+                receita.getTitulo(),
+                receita.getDescricao(),
+                porcoes,
+                receita.getTempoPreparo(),
+                receita.getNivel(),
+                receita.getCategoria() != null ? receita.getCategoria().getNome() : null,
+                ingredientesAjustados
+        );
+    }
 }

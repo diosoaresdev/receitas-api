@@ -1,0 +1,16 @@
+services:
+  receitas-db:
+    image: postgres:16
+    container_name: receitas-db
+    environment:
+      POSTGRES_USER: receitas
+      POSTGRES_PASSWORD: receitas123
+      POSTGRES_DB: receitas-db
+    ports:
+      - "5433:5432"
+    volumes:
+      - receitas_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  receitas_data:

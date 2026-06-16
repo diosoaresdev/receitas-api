@@ -28,6 +28,13 @@ public class ReceitaController {
         return receitaService.buscarPorId(id);
     }
 
+    @GetMapping("/{id}/porcoes")
+    public ReceitaResponse calcularPorcoes(
+            @PathVariable UUID id,
+            @RequestParam Integer qtd) {
+        return receitaService.calcularPorcoes(id, qtd);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ReceitaResponse criar(@RequestBody @Valid ReceitaRequest request) {
