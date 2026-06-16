@@ -1,31 +1,37 @@
 INSERT INTO categorias (id, nome, descricao) VALUES
-    (gen_random_uuid(), 'Italiana', 'Massas, risotos e pratos da culinária italiana')
-    ON CONFLICT (nome) DO NOTHING;
-
-INSERT INTO categorias (id, nome, descricao) VALUES
-    (gen_random_uuid(), 'Brasileira', 'Pratos típicos da culinária brasileira')
-    ON CONFLICT (nome) DO NOTHING;
-
-INSERT INTO categorias (id, nome, descricao) VALUES
-    (gen_random_uuid(), 'Japonesa', 'Sushis, temakis e pratos da culinária japonesa')
+                                                 ('a0000001-0000-0000-0000-000000000001', 'Italiana', 'Massas, risotos e pratos da culinária italiana'),
+                                                 ('a0000001-0000-0000-0000-000000000002', 'Brasileira', 'Pratos típicos da culinária brasileira'),
+                                                 ('a0000001-0000-0000-0000-000000000003', 'Japonesa', 'Sushis, temakis e pratos da culinária japonesa')
     ON CONFLICT (nome) DO NOTHING;
 
 INSERT INTO ingredientes (id, nome, unidade_medida, calorias) VALUES
-    (gen_random_uuid(), 'Farinha de trigo', 'g', 364.0)
+                                                                  ('b0000002-0000-0000-0000-000000000001', 'Farinha de trigo', 'g', 364.0),
+                                                                  ('b0000002-0000-0000-0000-000000000002', 'Ovo', 'unidade', 155.0),
+                                                                  ('b0000002-0000-0000-0000-000000000003', 'Azeite', 'ml', 884.0),
+                                                                  ('b0000002-0000-0000-0000-000000000004', 'Tomate', 'g', 18.0),
+                                                                  ('b0000002-0000-0000-0000-000000000005', 'Arroz', 'g', 358.0),
+                                                                  ('b0000002-0000-0000-0000-000000000006', 'Feijão', 'g', 347.0),
+                                                                  ('b0000002-0000-0000-0000-000000000007', 'Arroz japonês', 'g', 356.0),
+                                                                  ('b0000002-0000-0000-0000-000000000008', 'Vinagre de arroz', 'ml', 18.0),
+                                                                  ('b0000002-0000-0000-0000-000000000009', 'Alga nori', 'unidade', 35.0)
     ON CONFLICT (nome) DO NOTHING;
 
-INSERT INTO ingredientes (id, nome, unidade_medida, calorias) VALUES
-    (gen_random_uuid(), 'Ovo', 'unidade', 155.0)
-    ON CONFLICT (nome) DO NOTHING;
+INSERT INTO receitas (id, titulo, descricao, porcoes, tempo_preparo, nivel, categoria_id) VALUES
+                                                                                              ('c0000003-0000-0000-0000-000000000001', 'Massa fresca caseira', 'Massa fresca tradicional italiana feita à mão', 4, 45, 'MEDIO', 'a0000001-0000-0000-0000-000000000001'),
+                                                                                              ('c0000003-0000-0000-0000-000000000002', 'Arroz com feijão', 'Prato básico brasileiro', 4, 40, 'FACIL', 'a0000001-0000-0000-0000-000000000002'),
+                                                                                              ('c0000003-0000-0000-0000-000000000003', 'Temaki simples', 'Temaki de atum com cream cheese', 2, 20, 'FACIL', 'a0000001-0000-0000-0000-000000000003'),
+                                                                                              ('c0000003-0000-0000-0000-000000000004', 'Risoto de tomate', 'Risoto cremoso com tomates frescos', 2, 35, 'DIFICIL', 'a0000001-0000-0000-0000-000000000001')
+    ON CONFLICT (id) DO NOTHING;
 
-INSERT INTO ingredientes (id, nome, unidade_medida, calorias) VALUES
-    (gen_random_uuid(), 'Azeite', 'ml', 884.0)
-    ON CONFLICT (nome) DO NOTHING;
-
-INSERT INTO ingredientes (id, nome, unidade_medida, calorias) VALUES
-    (gen_random_uuid(), 'Tomate', 'g', 18.0)
-    ON CONFLICT (nome) DO NOTHING;
-
-INSERT INTO ingredientes (id, nome, unidade_medida, calorias) VALUES
-    (gen_random_uuid(), 'Arroz', 'g', 358.0)
-    ON CONFLICT (nome) DO NOTHING;
+INSERT INTO receita_ingredientes (id, receita_id, ingrediente_id, quantidade) VALUES
+                                                                                  ('d0000004-0000-0000-0000-000000000001', 'c0000003-0000-0000-0000-000000000001', 'b0000002-0000-0000-0000-000000000001', 300.0),
+                                                                                  ('d0000004-0000-0000-0000-000000000002', 'c0000003-0000-0000-0000-000000000001', 'b0000002-0000-0000-0000-000000000002', 3.0),
+                                                                                  ('d0000004-0000-0000-0000-000000000003', 'c0000003-0000-0000-0000-000000000001', 'b0000002-0000-0000-0000-000000000003', 15.0),
+                                                                                  ('d0000004-0000-0000-0000-000000000004', 'c0000003-0000-0000-0000-000000000002', 'b0000002-0000-0000-0000-000000000005', 200.0),
+                                                                                  ('d0000004-0000-0000-0000-000000000005', 'c0000003-0000-0000-0000-000000000002', 'b0000002-0000-0000-0000-000000000006', 150.0),
+                                                                                  ('d0000004-0000-0000-0000-000000000006', 'c0000003-0000-0000-0000-000000000003', 'b0000002-0000-0000-0000-000000000007', 150.0),
+                                                                                  ('d0000004-0000-0000-0000-000000000007', 'c0000003-0000-0000-0000-000000000003', 'b0000002-0000-0000-0000-000000000009', 2.0),
+                                                                                  ('d0000004-0000-0000-0000-000000000008', 'c0000003-0000-0000-0000-000000000004', 'b0000002-0000-0000-0000-000000000005', 300.0),
+                                                                                  ('d0000004-0000-0000-0000-000000000009', 'c0000003-0000-0000-0000-000000000004', 'b0000002-0000-0000-0000-000000000004', 200.0),
+                                                                                  ('d0000004-0000-0000-0000-000000000010', 'c0000003-0000-0000-0000-000000000004', 'b0000002-0000-0000-0000-000000000003', 30.0)
+    ON CONFLICT (id) DO NOTHING;
