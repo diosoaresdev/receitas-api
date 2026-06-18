@@ -11,6 +11,8 @@ import com.receitas.repository.IngredienteRepository;
 import com.receitas.repository.ReceitaRepository;
 import com.receitas.specification.ReceitaSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,17 +57,15 @@ public class ReceitaService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReceitaResponse> listar(String categoria, Nivel nivel, Integer maxTempo, String titulo) {
+    public Page<ReceitaResponse> listar(String categoria, Nivel nivel, Integer maxTempo, String titulo, Pageable pageable) {
         Specification<Receita> spec = Specification
                 .where(ReceitaSpecification.comCategoria(categoria))
                 .and(ReceitaSpecification.comNivel(nivel))
                 .and(ReceitaSpecification.comMaxTempo(maxTempo))
                 .and(ReceitaSpecification.comTitulo(titulo));
 
-        return receitaRepository.findAll(spec)
-                .stream()
-                .map(ReceitaResponse::from)
-                .toList();
+        return receitaRepository.findAll(spec, pageable)
+                .map(ReceitaResponse::from);
     }
 
     @Transactional(readOnly = true)

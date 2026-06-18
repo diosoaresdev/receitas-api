@@ -8,8 +8,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 
-import java.util.List;
+
 import java.util.UUID;
 
 @RestController
@@ -20,12 +23,13 @@ public class ReceitaController {
     private final ReceitaService receitaService;
 
     @GetMapping
-    public List<ReceitaResponse> listar(
+    public Page<ReceitaResponse> listar(
             @RequestParam(required = false) String categoria,
             @RequestParam(required = false) Nivel nivel,
             @RequestParam(required = false) Integer maxTempo,
-            @RequestParam(required = false) String titulo) {
-        return receitaService.listar(categoria, nivel, maxTempo, titulo);
+            @RequestParam(required = false) String titulo,
+            @PageableDefault(size = 10, sort = "titulo") Pageable pageable) {
+        return receitaService.listar(categoria, nivel, maxTempo, titulo, pageable);
     }
 
     @GetMapping("/{id}")
